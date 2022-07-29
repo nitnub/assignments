@@ -1,11 +1,6 @@
-# To-Do List 
+# Shopping Cart 
 
-
-![To-Do List screenshot](./preview.jpg)
-
-
-
-Week 13 assignment to finish a basic js To-Do list interface. 
+Week 13 assignment to build out basic shopping cart functionality. 
 
 
 ## To run...
@@ -22,7 +17,3 @@ Week 13 assignment to finish a basic js To-Do list interface.
         http-server -c-1
 
 5. Follow the prompts to open the project in a browser window. 
-
-## Features
-* Add new item to the list via the "Add item" input field.
-* Remove an item by clicking the X.
