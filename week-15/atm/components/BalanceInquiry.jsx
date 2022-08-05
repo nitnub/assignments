@@ -1,7 +1,7 @@
-const BalanceInquiry = ({ totalState }) => {
+const BalanceInquiry = () => {
   return (
     <>
-      <h1>{totalState}</h1>
+      <p><i>Balance as of today.</i></p>
     </>
   );
 };

@@ -18,22 +18,27 @@ const Login = () => {
   };
 
   return (
-    <div className="conatainer">
-      {validUser ? (
+    <div className="container">
+      {!validUser ? (
+        <div className="login-screen">
+          <h1 className="login header">ATM</h1>
+          <form onSubmit={logIn}>
+            <input
+              type="text"
+              value={userName}
+              onChange={onChange}
+              placeholder="Please enter your name..."
+            />
+            <input type="submit" value="Log In" />
+          </form>
+        </div>
+      ) : (
         <>
           <Account userName={userName} />
-          <button onClick={logOut}>Log Out</button>
+          <div className="logout-container">
+            <button onClick={logOut}>Log Out</button>
+          </div>
         </>
-      ) : (
-        <form onSubmit={logIn}>
-          <input
-            type="text"
-            value={userName}
-            onChange={onChange}
-            placeholder="Please enter your name..."
-          />
-          <input type="submit" value="Log In" />
-        </form>
       )}
     </div>
   );
