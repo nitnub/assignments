@@ -2,8 +2,12 @@ const Login = () => {
   const [userName, setUserName] = React.useState('');
   const [validUser, setValidUser] = React.useState(false);
 
+  document.title = 'ATM | Welcome';
   React.useEffect(() => {
-    document.title = `${userName}'s Account`;
+    if (validUser) {
+      document.title = `${userName}'s Account`;
+    }
+    
   }, [validUser]);
 
   const onChange = (e) => {
