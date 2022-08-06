@@ -12,6 +12,7 @@ const Account = ({ userName }) => {
   // List of transaction views. Can be expanded to include other service offerings.
   const choice = ['Deposit', 'Withdraw'];
 
+
   // Return to main Account View
   const goBack = () => {
     setWorkArea('');

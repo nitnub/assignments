@@ -2,6 +2,10 @@ const Login = () => {
   const [userName, setUserName] = React.useState('');
   const [validUser, setValidUser] = React.useState(false);
 
+  React.useEffect(() => {
+    document.title = `${userName}'s Account`;
+  }, [validUser]);
+
   const onChange = (e) => {
     setUserName(e.target.value);
   };
