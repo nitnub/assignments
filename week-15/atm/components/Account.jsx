@@ -8,6 +8,7 @@ const Account = ({ userName }) => {
   const [validationFailed, setValidationFailed] = React.useState(false);
   const [workArea, setWorkArea] = React.useState('');
   const [disableSubmit, setDisableSubmit] = React.useState(false);
+  
   // List of transaction views. Can be expanded to include other service offerings.
   const choice = ['Deposit', 'Withdraw'];
 
@@ -35,7 +36,7 @@ const Account = ({ userName }) => {
 
   const handleSubmit = () => {
     setValidationFailed(false);
-    console.log('submit');
+  
 
     if (!isDeposit && deposit > totalState) {
       setValidationFailed(true);
