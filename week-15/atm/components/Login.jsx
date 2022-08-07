@@ -37,14 +37,17 @@ const Login = () => {
               onChange={onChange}
               placeholder="Please enter your name..."
             />
-            <input type="submit" value="Log In" />
+            <input className="btn" type="submit" value="Log In" />
           </form>
         </div>
       ) : (
         <>
           <Account userName={userName} />
           <div className="logout-container">
-            <button onClick={logOut}>Log Out</button>
+            <button 
+              className="btn-logout" 
+              onClick={logOut}
+            >Log Out</button>
           </div>
         </>
       )}

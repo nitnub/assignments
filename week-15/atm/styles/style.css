@@ -1,16 +1,28 @@
+
+:root {
+  --clr-dark: #121b23;
+  --clr-white: #eae5dd;
+  --clr-alert-lt: #f6b333;
+  --clr-alert-dk: #f05c00;
+  --clr-red: #9c4128
+  /* --clr-dark: var(--clr-dark); */
+  /* --clr-dark: var(--clr-dark); */
+  
+}
+
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgb(167, 186, 204);
+  background-color: var(--clr-dark);
 }
 
 .container {
   display: flex;
   flex-direction: column;
    border: 1px solid white;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--clr-white);
   height: 350px;
   width: 325px;
   border-radius: 6px;
@@ -42,8 +54,13 @@ body {
 .back-button {
   text-align: center;
 }
+
 .account-main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.btn-logout {
+  background-color: var(--clr-red);
 }
