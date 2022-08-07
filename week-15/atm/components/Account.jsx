@@ -89,14 +89,14 @@ const Account = ({ userName }) => {
           <div>
             <h4>Please make a selection:</h4>
             <form onSubmit={handleSubmit}>
-              <button type="button" onClick={() => setView('Withdraw')}>
+              <button className="btn" type="button" onClick={() => setView('Withdraw')}>
                 Withdraw
               </button>
-              <button type="button" onClick={() => setView('Deposit')}>
+              <button className="btn" type="button" onClick={() => setView('Deposit')}>
                 Deposit
               </button>
 
-              <button type="button" onClick={() => setView('Balance Inquiry')}>
+              <button className="btn" type="button" onClick={() => setView('Balance Inquiry')}>
                 Balance Inquiry
               </button>
             </form>

@@ -1,10 +1,13 @@
 
 :root {
-  --clr-dark: #121b23;
+  --clr-blue-dk: #121b23;
+  --clr-blue-lt: #253746;
   --clr-white: #eae5dd;
   --clr-alert-lt: #f6b333;
   --clr-alert-dk: #f05c00;
-  --clr-red: #9c4128
+  --clr-red: #9c4128;
+  --clr-green: #657632;
+
   /* --clr-dark: var(--clr-dark); */
   /* --clr-dark: var(--clr-dark); */
   
@@ -15,7 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--clr-dark);
+  background-color: var(--clr-blue-dk);
 }
 
 .container {
@@ -60,7 +63,17 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+.btn {
+  background-color: var(--clr-blue-lt);
+  color: var(--clr-white);
+}
+
+.btn-login {
+ background-color: var(--clr-green);
+ color: var(--clr-white);
+}
 
 .btn-logout {
   background-color: var(--clr-red);
+  color: var(--clr-white);
 }
