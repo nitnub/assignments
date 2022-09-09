@@ -1,10 +1,10 @@
 // simulate getting products from DataBase
 
 const products = [
-  { name: 'Apples', country: 'Italy', cost: 3, instock: 10 },
-  { name: 'Oranges', country: 'Spain', cost: 4, instock: 3 },
-  { name: 'Beans', country: 'USA', cost: 2, instock: 5 },
-  { name: 'Cabbage', country: 'USA', cost: 1, instock: 8 },
+  { id: 1001, name: 'Apples', country: 'Italy', cost: 3, instock: 10 },
+  { id: 1002, name: 'Oranges', country: 'Spain', cost: 4, instock: 3 },
+  { id: 1003, name: 'Beans', country: 'USA', cost: 2, instock: 5 },
+  { id: 1004, name: 'Cabbage', country: 'USA', cost: 1, instock: 8 },
 ];
 //=========Cart=============
 const Cart = (props) => {
@@ -104,7 +104,7 @@ function Products(props) {
     // productCopy.forEach((product) => {
     for (let product of productCopy) {
       console.log('bbbbbbbbbbbbbbbbb', product);
-      if (product.name === item.name && product.instock > 0) {
+      if (product.id === item.id && product.instock > 0) {
         console.log('ccccccccccccccc');
         console.log(productCopy);
         product.instock -= 1;
@@ -117,17 +117,18 @@ function Products(props) {
     // );
   }
 
-  function incrementStock(item, count) {
+  function incrementStock(id) {
     const productCopy = [...items];
     console.log('aaaaaaaaaaaaaaaaa');
     // productCopy.forEach((product) => {
     for (let product of productCopy) {
-      console.log('bbbbbbbbbbbbbbbbb', product.name);
-      console.log('bbbbbbbbbbbbbbbbb', item.name);
-      if (product.name === item.name) {
+      // console.log('bbbbbbbbbbbbbbbbb', product.name);
+      // console.log('bbbbbbbbbbbbbbbbb', item.name);
+      if (product.id === id) {
         console.log('ccccccccccccccc');
         console.log(productCopy);
-        product.instock += count;
+        product.instock ++;
+        product.inCart --;
         setItems((product) => productCopy);
         return true;
       }
@@ -135,57 +136,72 @@ function Products(props) {
     return false;
   }
 
-  const addToCart = (e) => {
-    const { name } = e.target;
-
-    let newItem;
-    console.log('items:', items);
-    items.forEach((item) => {
-
-      if (item.name === name) {
-
-        newItem = item;
-      }
-    });
-    // console.log('new item initialized', newItem.name);
-    const cartCopy = [...cart];
-    // console.log('cartcopy', cart);
-
-    const alreadyInCart = cartCopy.some((item) => {
-      return item.name === newItem.name;
-    });
-    // console.log(`item in cart: ${alreadyInCart}`);
-    if (alreadyInCart) {
-      cartCopy.forEach((item) => {
-        if (alreadyInCart && item.name === newItem.name && item.instock > 0) {
-          // console.log('item.name', item.name);
-          if (decrementStock(item)) {
-            item.inCart++;
-            // setCart([...cartCopy, newItem]);
-            setCart(cartCopy);
-            // return;
-          }
-          // return;
-        }
-      });
+  const addToCart = (id) => {
+    // const { name } = e.target;
+    console.log(id)
+    const [item] = items.filter((item) => item.id === id);
+    console.log(`add to Cart ${JSON.stringify(item)}`);
+    console.log(items);
+    if (item.instock === 0) {
+      return;
     } else {
-      // console.log('item.name no match', newItem.name);
-      // console.log('decrement stock', decrementStock(newItem))
-      if (decrementStock(newItem)) {
-        newItem.inCart = 1;
-        setCart([...cartCopy, newItem]);
-        // console.log('cart', cart);
-        // console.log('newItem', [...cart, newItem]);
-      }
-
-      // return;
+      console.log('instock: ', item);
+      item.inCart ? (item.inCart += 1) : (item.inCart = 1);
+      item.instock -= 1;
     }
-    // console.log('cartCopy', cartCopy);
-    // console.log('cart', cart);
-    // console.log(`add to Cart ${JSON.stringify(item)}`);
-    // setCart([...cart, ...item]);
-    // console.log(`Cart: ${JSON.stringify(cart)}`);
-    // doFetch(query);
+
+    setCart([...cart, item]);
+
+    // const { name } = e.target;
+
+    // let newItem;
+    // console.log('items:', items);
+    // items.forEach((item) => {
+
+    //   if (item.name === name) {
+
+    //     newItem = item;
+    //   }
+    // });
+    // // console.log('new item initialized', newItem.name);
+    // const cartCopy = [...cart];
+    // // console.log('cartcopy', cart);
+
+    // const alreadyInCart = cartCopy.some((item) => {
+    //   return item.name === newItem.name;
+    // });
+    // // console.log(`item in cart: ${alreadyInCart}`);
+    // if (alreadyInCart) {
+    //   cartCopy.forEach((item) => {
+    //     if (alreadyInCart && item.name === newItem.name && item.instock > 0) {
+    //       // console.log('item.name', item.name);
+    //       if (decrementStock(item)) {
+    //         item.inCart++;
+    //         setCart([...cartCopy, newItem]);
+    //         // setCart(cartCopy);
+    //         // return;
+    //       }
+    //       // return;
+    //     }
+    //   });
+    // } else {
+    //   // console.log('item.name no match', newItem.name);
+    //   // console.log('decrement stock', decrementStock(newItem))
+    //   if (decrementStock(newItem)) {
+    //     newItem.inCart = 1;
+    //     setCart([...cartCopy, newItem]);
+    //     // console.log('cart', cart);
+    //     // console.log('newItem', [...cart, newItem]);
+    //   }
+
+    //   // return;
+    // }
+    // // console.log('cartCopy', cartCopy);
+    // // console.log('cart', cart);
+    // // console.log(`add to Cart ${JSON.stringify(item)}`);
+    // // setCart([...cart, ...item]);
+    // // console.log(`Cart: ${JSON.stringify(cart)}`);
+    // // doFetch(query);
   };
 
   const deleteCartItem = (index) => {
@@ -210,7 +226,11 @@ function Products(props) {
         <Button variant="primary" size="large">
           {item.name} ${item.cost} Stock:{item.instock}
         </Button>
-        <input name={item.name} type="submit" onClick={addToCart}></input>
+        <input
+          name={item.name}
+          type="submit"
+          onClick={() => addToCart(item.id)}
+        ></input>
       </li>
     );
   });
@@ -229,7 +249,8 @@ function Products(props) {
           onClick={() => {
             console.log('item name: ', item.name);
             console.log('item incart: ', item.inCart);
-            incrementStock(item, item.inCart);
+            // incrementStock(item, item.inCart);
+            incrementStock(item.id);
             deleteCartItem(index);
           }}
           eventKey={1 + index}
@@ -262,14 +283,16 @@ function Products(props) {
   };
   // TODO: implement the restockProducts function
   const restockProducts = (url) => {
-    // doFetch(url);
-    // console.log(data)
+    doFetch(url);
+    // console.log(data.data)
     const res = data.data; // Data object is nested in response
     const tempItems = res.map((item) => {
       console.log(item.attributes);
+      const { id } = item;
       const { name, cost, country, instock } = item.attributes;
-      return { name, cost, country, instock };
+      return { id, name, cost, country, instock, inCart: 0 };
     });
+    console.log(tempItems);
     setItems([...items, ...tempItems]);
   };
 
