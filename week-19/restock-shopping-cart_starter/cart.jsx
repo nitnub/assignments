@@ -29,7 +29,7 @@ const useDataApi = (initialUrl, initialData) => {
     data: initialData,
   });
   console.log(`useDataApi called`);
-  console.log(`Current state object: ${JSON.stringify(state.data)}`);
+  // console.log(`Current state object: ${JSON.stringify(state.data)}`);
   useEffect(() => {
     console.log('useEffect Called on', url);
     let didCancel = false;
@@ -37,7 +37,7 @@ const useDataApi = (initialUrl, initialData) => {
       dispatch({ type: 'FETCH_INIT' });
       try {
         const result = await axios(url);
-        console.log('FETCH FROM URl');
+        console.log('FETCH FROM URL');
         if (!didCancel) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
@@ -142,24 +142,25 @@ function Products(props) {
     items.forEach((item) => {
       // console.log(`NAME: ${name} || ITEM: ${item.name}`)
       if (item.name === name) {
-        console.log(
-          `NAME: ${name} || ITEM: ${item.name}  || MATCH: ${name === item.name}`
-        );
+        console
+          .log
+          // `NAME: ${name} || ITEM: ${item.name}  || MATCH: ${name === item.name}`
+          ();
         newItem = item;
       }
     });
-    console.log('new item initialized', newItem.name);
+    // console.log('new item initialized', newItem.name);
     const cartCopy = [...cart];
-    console.log('cartcopy', cart);
+    // console.log('cartcopy', cart);
 
     const alreadyInCart = cartCopy.some((item) => {
       return item.name === newItem.name;
     });
-    console.log(`item in cart: ${alreadyInCart}`);
+    // console.log(`item in cart: ${alreadyInCart}`);
     if (alreadyInCart) {
       cartCopy.forEach((item) => {
         if (alreadyInCart && item.name === newItem.name && item.instock > 0) {
-          console.log('item.name', item.name);
+          // console.log('item.name', item.name);
           if (decrementStock(item)) {
             item.inCart++;
             // setCart([...cartCopy, newItem]);
@@ -170,19 +171,19 @@ function Products(props) {
         }
       });
     } else {
-      console.log('item.name no match', newItem.name);
+      // console.log('item.name no match', newItem.name);
       // console.log('decrement stock', decrementStock(newItem))
       if (decrementStock(newItem)) {
         newItem.inCart = 1;
         setCart([...cartCopy, newItem]);
-        console.log('cart', cart);
-        console.log('newItem', [...cart, newItem]);
+        // console.log('cart', cart);
+        // console.log('newItem', [...cart, newItem]);
       }
 
       // return;
     }
-    console.log('cartCopy', cartCopy);
-    console.log('cart', cart);
+    // console.log('cartCopy', cartCopy);
+    // console.log('cart', cart);
     // console.log(`add to Cart ${JSON.stringify(item)}`);
     // setCart([...cart, ...item]);
     // console.log(`Cart: ${JSON.stringify(cart)}`);
@@ -195,16 +196,19 @@ function Products(props) {
     setCart(newCart);
   };
   const photos = ['apple.png', 'orange.png', 'beans.png', 'cabbage.png'];
-
-
+  // const randomNum = Math.floor(Math.random() * 1049);
+  
   const list = items.map((item, index) => {
-    const photoId = index + Math.floor(Math.random() * 1049);
-    const url = `https://picsum.photos/id/${photoId}/50/50`;
+    // const photoId = randomNum + index; // index + Math.floor(Math.random() * 1049);
+    // const photoUrl = `https://picsum.photos/id/${photoId}/50/50`;
+    // console.log(55)
+    const photoUrl = `https://picsum.photos/id/${index * 10}/50/50`;
+    // let photoUrl = `https://picsum.photos/id//50/50`;
 
     return (
       <li key={index}>
         {/* <Image src={photos[index % 4]} width={70} roundedCircle></Image> */}
-        <Image src={url} width={70} roundedCircle></Image>
+        <Image src={photoUrl} width={70} roundedCircle></Image>
         <Button variant="primary" size="large">
           {item.name} ${item.cost} Stock:{item.instock}
         </Button>
@@ -260,9 +264,25 @@ function Products(props) {
   };
   // TODO: implement the restockProducts function
   const restockProducts = (url) => {
-    doFetch(url);
-
+    // doFetch(url);
+    // console.log(data)
+    const res = data.data; // Data object is nested in response
+    const tempItems = res.map((item) => {
+      console.log(item.attributes);
+      const { name, cost, country, instock } = item.attributes;
+      return { name, cost, country, instock }
+    });
+    setItems([...items, ...tempItems]);
   };
+
+  // const restockProducts = (url) => {
+  //   doFetch(url);
+  //   let newItems = data.map((item) => {
+  //     let { name, country, cost, instock } = item;
+  //     return { name, country, cost, instock };
+  //   });
+  //   setItems([...items, ...newItems]);
+  // };
 
   return (
     <Container>
@@ -292,7 +312,7 @@ function Products(props) {
           <input
             type="text"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => console.log(event.target.value) } //setQuery(event.target.value)}
           />
           <button type="submit">ReStock Products</button>
         </form>
