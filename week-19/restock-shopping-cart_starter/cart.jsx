@@ -12,7 +12,11 @@ const Cart = (props) => {
   let data = props.location.data ? props.location.data : products;
   console.log(`data:${JSON.stringify(data)}`);
 
-  return <Accordion className="accordion" defaultActiveKey="0">{list}</Accordion>;
+  return (
+    <Accordion className="accordion" defaultActiveKey="0">
+      {list}
+    </Accordion>
+  );
 };
 
 const useDataApi = (initialUrl, initialData) => {
@@ -25,8 +29,9 @@ const useDataApi = (initialUrl, initialData) => {
     data: initialData,
   });
   console.log(`useDataApi called`);
+  console.log(`Current state object: ${JSON.stringify(state.data)}`);
   useEffect(() => {
-    console.log('useEffect Called');
+    console.log('useEffect Called on', url);
     let didCancel = false;
     const fetchData = async () => {
       dispatch({ type: 'FETCH_INIT' });
@@ -112,7 +117,7 @@ function Products(props) {
     // );
   }
 
-  function incrementStock(item, count){
+  function incrementStock(item, count) {
     const productCopy = [...products];
     console.log('aaaaaaaaaaaaaaaaa');
     // productCopy.forEach((product) => {
@@ -129,9 +134,6 @@ function Products(props) {
     }
     return false;
   }
-
-
-
 
   const addToCart = (e) => {
     const { name } = e.target;
@@ -189,19 +191,20 @@ function Products(props) {
 
   const deleteCartItem = (index) => {
     let newCart = cart.filter((item, i) => index != i);
-    
+
     setCart(newCart);
-    
   };
   const photos = ['apple.png', 'orange.png', 'beans.png', 'cabbage.png'];
 
+
   const list = items.map((item, index) => {
-    // let n = index + 1049;
-    // let url = "https://picsum.photos/id/" + n + "/50/50";
+    const photoId = index + Math.floor(Math.random() * 1049);
+    const url = `https://picsum.photos/id/${photoId}/50/50`;
 
     return (
       <li key={index}>
-        <Image src={photos[index % 4]} width={70} roundedCircle></Image>
+        {/* <Image src={photos[index % 4]} width={70} roundedCircle></Image> */}
+        <Image src={url} width={70} roundedCircle></Image>
         <Button variant="primary" size="large">
           {item.name} ${item.cost} Stock:{item.instock}
         </Button>
@@ -211,17 +214,21 @@ function Products(props) {
   });
   let cartList = cart.map((item, index) => {
     return (
-      <Accordion.Item classNamae="accordion-item" key={1 + index} eventKey={1 + index}>
+      <Accordion.Item
+        classNamae="accordion-item"
+        key={1 + index}
+        eventKey={1 + index}
+      >
         {/* <Accordion.Item key={1 + index} id={1 + index}> */}
         <Accordion.Header>
           {item.name} {item.inCart}
         </Accordion.Header>
         <Accordion.Body
           onClick={() => {
-            console.log('item name: ', item.name)
-            console.log('item incart: ', item.inCart)
-            incrementStock(item, item.inCart)
-            deleteCartItem(index)
+            console.log('item name: ', item.name);
+            console.log('item incart: ', item.inCart);
+            incrementStock(item, item.inCart);
+            deleteCartItem(index);
           }}
           eventKey={1 + index}
           // id={1 + index}
@@ -252,7 +259,10 @@ function Products(props) {
     return newTotal;
   };
   // TODO: implement the restockProducts function
-  const restockProducts = (url) => {};
+  const restockProducts = (url) => {
+    doFetch(url);
+
+  };
 
   return (
     <Container>
