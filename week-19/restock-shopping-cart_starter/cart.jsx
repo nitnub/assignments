@@ -84,6 +84,7 @@ function Products(props) {
   const [items, setItems] = React.useState(products);
   const [cart, setCart] = React.useState([]);
   const [total, setTotal] = React.useState(0);
+  const [tempId, setTempId] = React.useState(products.length);
   const { Card, Accordion, Button, Container, Row, Col, Image, Input } =
     ReactBootstrap;
   //  Fetch Data
@@ -95,13 +96,10 @@ function Products(props) {
       data: [],
     }
   );
-  // console.log(`Rendering Products ${JSON.stringify(data)}`);
-  // Fetch Data
 
   function decrementStock(item) {
     const productCopy = [...items];
     console.log('aaaaaaaaaaaaaaaaa');
-    // productCopy.forEach((product) => {
     for (let product of productCopy) {
       console.log('bbbbbbbbbbbbbbbbb', product);
       if (product.id === item.id && product.instock > 0) {
@@ -113,20 +111,13 @@ function Products(props) {
       }
     }
     return false;
-
-    // );
   }
 
   function incrementStock(id) {
     const productCopy = [...items];
-    console.log('aaaaaaaaaaaaaaaaa');
-    // productCopy.forEach((product) => {
+
     for (let product of productCopy) {
-      // console.log('bbbbbbbbbbbbbbbbb', product.name);
-      // console.log('bbbbbbbbbbbbbbbbb', item.name);
       if (product.id === id) {
-        console.log('ccccccccccccccc');
-        console.log(productCopy);
         product.instock++;
         product.inCart--;
         setItems((product) => productCopy);
@@ -151,57 +142,6 @@ function Products(props) {
     }
 
     setCart([...cart, item]);
-
-    // const { name } = e.target;
-
-    // let newItem;
-    // console.log('items:', items);
-    // items.forEach((item) => {
-
-    //   if (item.name === name) {
-
-    //     newItem = item;
-    //   }
-    // });
-    // // console.log('new item initialized', newItem.name);
-    // const cartCopy = [...cart];
-    // // console.log('cartcopy', cart);
-
-    // const alreadyInCart = cartCopy.some((item) => {
-    //   return item.name === newItem.name;
-    // });
-    // // console.log(`item in cart: ${alreadyInCart}`);
-    // if (alreadyInCart) {
-    //   cartCopy.forEach((item) => {
-    //     if (alreadyInCart && item.name === newItem.name && item.instock > 0) {
-    //       // console.log('item.name', item.name);
-    //       if (decrementStock(item)) {
-    //         item.inCart++;
-    //         setCart([...cartCopy, newItem]);
-    //         // setCart(cartCopy);
-    //         // return;
-    //       }
-    //       // return;
-    //     }
-    //   });
-    // } else {
-    //   // console.log('item.name no match', newItem.name);
-    //   // console.log('decrement stock', decrementStock(newItem))
-    //   if (decrementStock(newItem)) {
-    //     newItem.inCart = 1;
-    //     setCart([...cartCopy, newItem]);
-    //     // console.log('cart', cart);
-    //     // console.log('newItem', [...cart, newItem]);
-    //   }
-
-    //   // return;
-    // }
-    // // console.log('cartCopy', cartCopy);
-    // // console.log('cart', cart);
-    // // console.log(`add to Cart ${JSON.stringify(item)}`);
-    // // setCart([...cart, ...item]);
-    // // console.log(`Cart: ${JSON.stringify(cart)}`);
-    // // doFetch(query);
   };
 
   const deleteCartItem = (index) => {
@@ -209,56 +149,53 @@ function Products(props) {
 
     setCart(newCart);
   };
-  const photos = ['apple.png', 'orange.png', 'beans.png', 'cabbage.png'];
-  // const randomNum = Math.floor(Math.random() * 1049);
+  const photos = ['./images/apple.png', './images/orange.png', './images/beans.png', './images/cabbage.png'];
 
   const list = items.map((item, index) => {
-    // const photoId = randomNum + index; // index + Math.floor(Math.random() * 1049);
-    // const photoUrl = `https://picsum.photos/id/${photoId}/50/50`;
-    // console.log(55)
     const photoUrl = `https://picsum.photos/id/${index * 10}/50/50`;
-    // let photoUrl = `https://picsum.photos/id//50/50`;
 
     return (
       <li key={index}>
-        {/* <Image src={photos[index % 4]} width={70} roundedCircle></Image> */}
-        <Image src={photoUrl} width={70} roundedCircle></Image>
-        <Button variant="primary" size="large">
-          {item.name} ${item.cost} Stock:{item.instock}
-        </Button>
-        <input
-          name={item.name}
-          type="submit"
-          onClick={() => addToCart(item.id)}
-        ></input>
+        <div className="product-listing">
+          <Image className="product-image" src={photoUrl} width={70}></Image>
+          <div className="product-details">
+            <Button className="product-button" variant="primary" size="large">
+              {item.name} ${item.cost} Stock:{item.instock}
+            </Button>
+            <input
+              className="product-add-to-cart"
+              name={item.name}
+              type="submit"
+              value={'Add to Cart'}
+              onClick={() => addToCart(item.id)}
+            ></input>
+          </div>
+        </div>
       </li>
     );
   });
   let cartList = cart.map((item, index) => {
     return (
-      <Accordion.Item
-        className="accordion-item"
-        key={1 + index}
-        eventKey={1 + index}
-      >
-        {/* <Accordion.Item key={1 + index} id={1 + index}> */}
-        <Accordion.Header>
-          {item.name} {item.inCart}
-        </Accordion.Header>
-        <Accordion.Body
-          onClick={() => {
-            console.log('item name: ', item.name);
-            console.log('item incart: ', item.inCart);
-            // incrementStock(item, item.inCart);
-            incrementStock(item.id);
-            deleteCartItem(index);
-          }}
+      <Accordion>
+        <Accordion.Item
+          className="accordion-item"
+          key={1 + index}
           eventKey={1 + index}
-          // id={1 + index}
         >
-          $ {item.cost} from {item.country}
-        </Accordion.Body>
-      </Accordion.Item>
+          <Accordion.Header>
+            {item.name} {item.inCart}
+          </Accordion.Header>
+          <Accordion.Body
+            onClick={() => {
+              incrementStock(item.id);
+              deleteCartItem(index);
+            }}
+            eventKey={1 + index}
+          >
+            $ {item.cost} from {item.country}
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     );
   });
 
@@ -268,31 +205,28 @@ function Products(props) {
     cart.forEach((item) => {
       const { name } = item;
       console.log('item', item);
+      const total = item.inCart;
       if (!gCart[name]) {
         const { id, cost, inCart } = item;
-        gCart[name] = { id, name, cost, inCart };
+        gCart[name] = { id, name, cost, inCart: 1 };
+        console.log('not in cart', gCart[name]);
+      } else {
+        const currentCount = gCart[name].inCart;
+        console.log('CURRENT COUNT: ', currentCount);
+        console.log(gCart);
+        gCart[name].inCart += 1;
       }
+    });
 
-    })
-    // let gCart = cart.map((item) => {
-
-
-    //   return { ...tempCart, { item };
-    // });
-
-
-    console.log(gCart);
     for (let key in gCart) {
-      groupedArray.push(gCart[key])
+      groupedArray.push(gCart[key]);
     }
     return groupedArray;
   }
   let finalList = () => {
     let total = checkOut();
-    console.log('groupedCart', groupedCart(cart))
+
     let final = groupedCart(cart).map((item, index) => {
-      // let final = cart.map((item, index) => {
-        console.log('final item', item)
       return (
         <div key={index} index={index}>
           {item.name} (x{item.inCart})... ${item.cost * item.inCart}
@@ -310,28 +244,22 @@ function Products(props) {
     return newTotal;
   };
   // TODO: implement the restockProducts function
+  let productId = tempId;
   const restockProducts = (url) => {
     doFetch(url);
-    // console.log(data.data)
     const res = data.data; // Data object is nested in response
     const tempItems = res.map((item) => {
-      console.log(item.attributes);
-      const { id } = item;
+      const id = productId;
+      productId++;
+
+      setTempId((tempId) => tempId + 1);
+      console.log('ID:', id);
       const { name, cost, country, instock } = item.attributes;
       return { id, name, cost, country, instock, inCart: 0 };
     });
     console.log(tempItems);
     setItems([...items, ...tempItems]);
   };
-
-  // const restockProducts = (url) => {
-  //   doFetch(url);
-  //   let newItems = data.map((item) => {
-  //     let { name, country, cost, instock } = item;
-  //     return { name, country, cost, instock };
-  //   });
-  //   setItems([...items, ...newItems]);
-  // };
 
   return (
     <Container>
