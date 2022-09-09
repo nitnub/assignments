@@ -9,7 +9,7 @@ const products = [
 //=========Cart=============
 const Cart = (props) => {
   const { Card, Accordion, Button } = ReactBootstrap;
-  let data = props.location.data ? props.location.data : products;
+  let data = props.location.data ? props.location.data : items;
   console.log(`data:${JSON.stringify(data)}`);
 
   return (
@@ -99,7 +99,7 @@ function Products(props) {
   // Fetch Data
 
   function decrementStock(item) {
-    const productCopy = [...products];
+    const productCopy = [...items];
     console.log('aaaaaaaaaaaaaaaaa');
     // productCopy.forEach((product) => {
     for (let product of productCopy) {
@@ -118,7 +118,7 @@ function Products(props) {
   }
 
   function incrementStock(item, count) {
-    const productCopy = [...products];
+    const productCopy = [...items];
     console.log('aaaaaaaaaaaaaaaaa');
     // productCopy.forEach((product) => {
     for (let product of productCopy) {
@@ -137,15 +137,13 @@ function Products(props) {
 
   const addToCart = (e) => {
     const { name } = e.target;
-    // let item = items.filter((item) => item.name == name);
+
     let newItem;
+    console.log('items:', items);
     items.forEach((item) => {
-      // console.log(`NAME: ${name} || ITEM: ${item.name}`)
+
       if (item.name === name) {
-        console
-          .log
-          // `NAME: ${name} || ITEM: ${item.name}  || MATCH: ${name === item.name}`
-          ();
+
         newItem = item;
       }
     });
@@ -197,7 +195,7 @@ function Products(props) {
   };
   const photos = ['apple.png', 'orange.png', 'beans.png', 'cabbage.png'];
   // const randomNum = Math.floor(Math.random() * 1049);
-  
+
   const list = items.map((item, index) => {
     // const photoId = randomNum + index; // index + Math.floor(Math.random() * 1049);
     // const photoUrl = `https://picsum.photos/id/${photoId}/50/50`;
@@ -219,7 +217,7 @@ function Products(props) {
   let cartList = cart.map((item, index) => {
     return (
       <Accordion.Item
-        classNamae="accordion-item"
+        className="accordion-item"
         key={1 + index}
         eventKey={1 + index}
       >
@@ -248,7 +246,7 @@ function Products(props) {
     let final = cart.map((item, index) => {
       return (
         <div key={index} index={index}>
-          {item.name}
+          {item.name} (x{item.inCart})... ${item.cost * item.inCart}
         </div>
       );
     });
@@ -270,7 +268,7 @@ function Products(props) {
     const tempItems = res.map((item) => {
       console.log(item.attributes);
       const { name, cost, country, instock } = item.attributes;
-      return { name, cost, country, instock }
+      return { name, cost, country, instock };
     });
     setItems([...items, ...tempItems]);
   };
@@ -312,7 +310,7 @@ function Products(props) {
           <input
             type="text"
             value={query}
-            onChange={(event) => console.log(event.target.value) } //setQuery(event.target.value)}
+            onChange={(event) => console.log(event.target.value)} //setQuery(event.target.value)}
           />
           <button type="submit">ReStock Products</button>
         </form>
