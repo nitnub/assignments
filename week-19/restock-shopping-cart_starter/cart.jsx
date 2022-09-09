@@ -127,8 +127,8 @@ function Products(props) {
       if (product.id === id) {
         console.log('ccccccccccccccc');
         console.log(productCopy);
-        product.instock ++;
-        product.inCart --;
+        product.instock++;
+        product.inCart--;
         setItems((product) => productCopy);
         return true;
       }
@@ -138,7 +138,7 @@ function Products(props) {
 
   const addToCart = (id) => {
     // const { name } = e.target;
-    console.log(id)
+    console.log(id);
     const [item] = items.filter((item) => item.id === id);
     console.log(`add to Cart ${JSON.stringify(item)}`);
     console.log(items);
@@ -262,9 +262,37 @@ function Products(props) {
     );
   });
 
+  function groupedCart(cart) {
+    const gCart = {};
+    const groupedArray = [];
+    cart.forEach((item) => {
+      const { name } = item;
+      console.log('item', item);
+      if (!gCart[name]) {
+        const { id, cost, inCart } = item;
+        gCart[name] = { id, name, cost, inCart };
+      }
+
+    })
+    // let gCart = cart.map((item) => {
+
+
+    //   return { ...tempCart, { item };
+    // });
+
+
+    console.log(gCart);
+    for (let key in gCart) {
+      groupedArray.push(gCart[key])
+    }
+    return groupedArray;
+  }
   let finalList = () => {
     let total = checkOut();
-    let final = cart.map((item, index) => {
+    console.log('groupedCart', groupedCart(cart))
+    let final = groupedCart(cart).map((item, index) => {
+      // let final = cart.map((item, index) => {
+        console.log('final item', item)
       return (
         <div key={index} index={index}>
           {item.name} (x{item.inCart})... ${item.cost * item.inCart}

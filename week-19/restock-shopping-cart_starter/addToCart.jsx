@@ -1,19 +1,15 @@
 const addToCart = (e) => {
-
   let name = e.target.name;
   let item = items.filter((item) => item.name == name);
   console.log(`add to Cart ${JSON.stringify(item)}`);
   setCart([...cart, ...item]);
-
 
   const { name } = e.target;
 
   let newItem;
   console.log('items:', items);
   items.forEach((item) => {
-
     if (item.name === name) {
-
       newItem = item;
     }
   });
@@ -58,13 +54,6 @@ const addToCart = (e) => {
   // doFetch(query);
 };
 
-
-
-
-
-
-
-
 function decrementStock(item) {
   const productCopy = [...items];
   console.log('aaaaaaaaaaaaaaaaa');
@@ -82,6 +71,14 @@ function decrementStock(item) {
   return false;
 
   // );
+}
+
+function groupedCart(cart) {
+  let tempCart = {};
+  let gCart = cart.map((item) => {
+    return { ...tempCart, item };
+  });
+  return gCart;
 }
 
 function incrementStock(item, count) {
