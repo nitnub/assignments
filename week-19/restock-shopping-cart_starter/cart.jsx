@@ -89,9 +89,9 @@ function Products(props) {
     ReactBootstrap;
   //  Fetch Data
   const { Fragment, useState, useEffect, useReducer } = React;
-  const [query, setQuery] = useState('http://localhost:1337/api/products');
+  const [query, setQuery] = useState('products');
   const [{ data, isLoading, isError }, doFetch] = useDataApi(
-    'http://localhost:1337/api/products',
+    `http://localhost:1337/api/${query}`,
     {
       data: [],
     }
@@ -99,12 +99,8 @@ function Products(props) {
 
   function decrementStock(item) {
     const productCopy = [...items];
-    console.log('aaaaaaaaaaaaaaaaa');
     for (let product of productCopy) {
-      console.log('bbbbbbbbbbbbbbbbb', product);
       if (product.id === item.id && product.instock > 0) {
-        console.log('ccccccccccccccc');
-        console.log(productCopy);
         product.instock -= 1;
         setItems((product) => productCopy);
         return true;
@@ -128,18 +124,14 @@ function Products(props) {
   }
 
   const addToCart = (id) => {
-    // const { name } = e.target;
-    console.log(id);
     const [item] = items.filter((item) => item.id === id);
     console.log(`add to Cart ${JSON.stringify(item)}`);
-    console.log(items);
     if (item.instock === 0) {
       return;
-    } else {
-      console.log('instock: ', item);
-      item.inCart ? (item.inCart += 1) : (item.inCart = 1);
-      item.instock -= 1;
     }
+
+    item.inCart ? (item.inCart += 1) : (item.inCart = 1);
+    item.instock -= 1;
 
     setCart([...cart, item]);
   };
@@ -149,7 +141,12 @@ function Products(props) {
 
     setCart(newCart);
   };
-  const photos = ['./images/apple.png', './images/orange.png', './images/beans.png', './images/cabbage.png'];
+  const photos = [
+    './images/apple.png',
+    './images/orange.png',
+    './images/beans.png',
+    './images/cabbage.png',
+  ];
 
   const list = items.map((item, index) => {
     const photoUrl = `https://picsum.photos/id/${index * 10}/50/50`;
@@ -204,16 +201,12 @@ function Products(props) {
     const groupedArray = [];
     cart.forEach((item) => {
       const { name } = item;
-      console.log('item', item);
       const total = item.inCart;
       if (!gCart[name]) {
         const { id, cost, inCart } = item;
         gCart[name] = { id, name, cost, inCart: 1 };
-        console.log('not in cart', gCart[name]);
       } else {
         const currentCount = gCart[name].inCart;
-        console.log('CURRENT COUNT: ', currentCount);
-        console.log(gCart);
         gCart[name].inCart += 1;
       }
     });
@@ -249,15 +242,13 @@ function Products(props) {
     doFetch(url);
     const res = data.data; // Data object is nested in response
     const tempItems = res.map((item) => {
+      // utilize a dummy ID so that we can restock as many times as we'd like w/o ID collisions
       const id = productId;
       productId++;
-
       setTempId((tempId) => tempId + 1);
-      console.log('ID:', id);
       const { name, cost, country, instock } = item.attributes;
       return { id, name, cost, country, instock, inCart: 0 };
     });
-    console.log(tempItems);
     setItems([...items, ...tempItems]);
   };
 
@@ -289,7 +280,7 @@ function Products(props) {
           <input
             type="text"
             value={query}
-            onChange={(event) => console.log(event.target.value)} //setQuery(event.target.value)}
+            onChange={(event) => setQuery(event.target.value)}
           />
           <button type="submit">ReStock Products</button>
         </form>
